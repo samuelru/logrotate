@@ -1,5 +1,8 @@
 # Docker Logrotate
 
+[![Build and Publish Docker Image](https://github.com/samuelru/logrotate/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/samuelru/logrotate/actions/workflows/docker-publish.yml)
+[![Docker Hub](https://img.shields.io/docker/pulls/samuelru/logrotate.svg)](https://hub.docker.com/r/samuelru/logrotate)
+
 A Docker image that performs log rotation for other containers running in the same Docker Swarm environment.
 
 ## Overview
@@ -54,7 +57,7 @@ services:
 
   # Logrotate service
   logrotate:
-    image: samuelru/logrotate:1.0
+    image: samuelru/logrotate:latest  # Use latest version, or specify a version like 1.0.0
     volumes:
       - logs:/logs
     environment:
@@ -87,7 +90,7 @@ docker stack deploy -c docker-compose.yml mystack
 
 ```yaml
 logrotate:
-  image: samuelru/logrotate:1.0
+  image: samuelru/logrotate:latest
   volumes:
     - logs:/logs
   environment:
@@ -100,7 +103,7 @@ logrotate:
 
 ```yaml
 logrotate:
-  image: samuelru/logrotate:1.0
+  image: samuelru/logrotate:latest
   volumes:
     - logs:/logs
   environment:
@@ -112,7 +115,7 @@ logrotate:
 
 ```yaml
 logrotate:
-  image: samuelru/logrotate:1.0
+  image: samuelru/logrotate:latest
   volumes:
     - logs:/logs
   environment:
@@ -121,10 +124,53 @@ logrotate:
 
 ## Building the Image
 
+### Local Build
+
 To build the Docker image locally:
 
 ```bash
-docker build -t samuelru/logrotate:1.0 .
+docker build -t samuelru/logrotate:latest .
+```
+
+### CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and delivery:
+
+1. **Automated Builds**: Every push to the main branch and pull request triggers an automated build.
+2. **Versioned Releases**: Creating a tag with the format `v*` (e.g., `v1.0.0`) triggers a versioned release.
+3. **Docker Hub Publishing**: Successfully built images are automatically published to [Docker Hub](https://hub.docker.com/r/samuelru/logrotate).
+
+### Versioning Strategy
+
+The Docker images follow semantic versioning:
+
+| Tag Format | Example | Description |
+|------------|---------|-------------|
+| `latest` | `samuelru/logrotate:latest` | Latest stable build from the main branch |
+| `{version}` | `samuelru/logrotate:1.2.3` | Specific version (from git tag v1.2.3) |
+| `{major}.{minor}` | `samuelru/logrotate:1.2` | Latest patch version of a specific minor version |
+| `{major}` | `samuelru/logrotate:1` | Latest minor.patch version of a specific major version |
+| `main` | `samuelru/logrotate:main` | Latest build from the main branch (same as latest) |
+| `sha-{commit}` | `samuelru/logrotate:sha-a1b2c3d` | Build from a specific commit |
+
+To use a specific version in your docker-compose.yml, choose one of these options:
+
+```yaml
+# Option 1: Use a specific version
+logrotate:
+  image: samuelru/logrotate:1.0.0
+```
+
+```yaml
+# Option 2: Use latest 1.x.x version
+logrotate:
+  image: samuelru/logrotate:1
+```
+
+```yaml
+# Option 3: Use latest version
+logrotate:
+  image: samuelru/logrotate:latest
 ```
 
 ## Troubleshooting

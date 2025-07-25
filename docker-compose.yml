@@ -31,7 +31,7 @@ services:
 
   # Logrotate service to rotate logs from other containers
   logrotate:
-    image: samuelru/logrotate:1.0
+    image: samuelru/logrotate:latest  # Use latest version, or specify a version like 1.0.0
     volumes:
       - logs:/logs
     environment:
