@@ -11,7 +11,7 @@ on:
       - main
 
 env:
-  DOCKER_HUB_REPO: samuelru/logrotate
+  DOCKER_HUB_REPO: samuelrunggaldier/logrotate
   IMAGE_NAME: logrotate
 
 jobs:
