@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # Example service that generates logs
+  traefik:
+    image: traefik:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - logs:/logs  # folder containing access.log file
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.swarmMode=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--accesslog=true"
+      - "--accesslog.filepath=/logs/access.log"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+  # Logrotate service to rotate logs from other containers
+  logrotate:
+    image: samuelru/logrotate:1.0
+    volumes:
+      - logs:/logs
+    environment:
+      TZ: "Europe/Berlin"
+      LOGS_PATH: "/logs/*.log"      # log files to rotate, directory must match volume mount
+      TRIGGER_INTERVAL: daily       # rotate daily, must be one of: daily, weekly, monthly, yearly
+      MAX_SIZE: NONE                # rotate if log file size reaches for example 1K, 1M, 1G
+      MAX_BACKUPS: 365              # keep 365 backup copies per rotated log file
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+volumes:
+  logs:
+    driver: local
