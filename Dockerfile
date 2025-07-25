@@ -2,6 +2,9 @@ FROM alpine:3.19
 
 LABEL maintainer="SamuelRu"
 LABEL description="Docker image for rotating log files from other containers"
+LABEL license="MIT"
+LABEL copyright="Copyright (c) 2025 Samuel Runggaldier"
+LABEL source="https://github.com/samuelru/logrotate"
 
 # Install required packages
 RUN apk add --no-cache \
