@@ -6,7 +6,7 @@ Since we can't directly test the Docker image in this environment, here's a guid
 
 1. **Build the Docker image**:
    ```bash
-   docker build -t samuelru/logrotate:1.0 .
+   docker build -t samuelrunggaldier/logrotate:1.0 .
    ```
 
 2. **Create test log files**:
@@ -25,7 +25,7 @@ Since we can't directly test the Docker image in this environment, here's a guid
      -e TRIGGER_INTERVAL=daily \
      -e MAX_SIZE=1K \
      -e MAX_BACKUPS=5 \
-     samuelru/logrotate:1.0
+     samuelrunggaldier/logrotate:1.0
    ```
 
 4. **Check container logs**:
