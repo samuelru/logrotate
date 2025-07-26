@@ -22,6 +22,18 @@
 
 set -e
 
+# Function to strip quotes from a string
+strip_quotes() {
+    local value="$1"
+    # Remove leading and trailing double quotes
+    value="${value#\"}"
+    value="${value%\"}"
+    # Remove leading and trailing single quotes
+    value="${value#\'}"
+    value="${value%\'}"
+    echo "$value"
+}
+
 # Function to generate logrotate configuration
 generate_logrotate_config() {
     echo "Generating logrotate configuration..."
@@ -93,7 +105,15 @@ setup_cron() {
 # Main function
 main() {
     echo "Starting logrotate container..."
-    echo "Environment variables:"
+    
+    # Strip quotes from environment variables
+    LOGS_PATH=$(strip_quotes "${LOGS_PATH}")
+    TRIGGER_INTERVAL=$(strip_quotes "${TRIGGER_INTERVAL}")
+    MAX_SIZE=$(strip_quotes "${MAX_SIZE}")
+    MAX_BACKUPS=$(strip_quotes "${MAX_BACKUPS}")
+    TZ=$(strip_quotes "${TZ}")
+    
+    echo "Environment variables (after processing):"
     echo "LOGS_PATH: ${LOGS_PATH}"
     echo "TRIGGER_INTERVAL: ${TRIGGER_INTERVAL}"
     echo "MAX_SIZE: ${MAX_SIZE}"
