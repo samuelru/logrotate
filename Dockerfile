@@ -27,7 +27,8 @@ ENV LOGS_PATH="/logs/*.log" \
     TRIGGER_INTERVAL="daily" \
     MAX_SIZE="NONE" \
     MAX_BACKUPS="365" \
-    TZ="UTC"
+    TZ="UTC" \
+    DELAYCOMPRESS="true"
 
 # Set volume for logs
 VOLUME /logs

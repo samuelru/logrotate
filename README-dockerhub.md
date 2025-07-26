@@ -51,6 +51,7 @@ services:
       TRIGGER_INTERVAL: daily
       MAX_SIZE: 100M
       MAX_BACKUPS: 30
+      DELAYCOMPRESS: "true"
 
 volumes:
   logs:
@@ -65,6 +66,7 @@ volumes:
 | `TRIGGER_INTERVAL` | How often to rotate logs | `daily` | `hourly`, `daily`, `weekly`, `monthly`, `yearly` |
 | `MAX_SIZE` | Rotate if log file size reaches this threshold | `NONE` | `NONE` or size (e.g., `1K`, `10M`, `1G`) |
 | `MAX_BACKUPS` | Number of backup copies to keep | `365` | Any positive integer |
+| `DELAYCOMPRESS` | Delay compression of rotated logs until next rotation | `true` | `true`, `false` |
 | `TZ` | Timezone | `UTC` | Any valid timezone (e.g., `Europe/Berlin`) |
 
 ## 🔗 Links

@@ -45,7 +45,12 @@ generate_logrotate_config() {
     echo "    dateext" >> /etc/logrotate.d/docker-logs
     echo "    dateformat -%Y%m%d-%H%M%S" >> /etc/logrotate.d/docker-logs
     echo "    compress" >> /etc/logrotate.d/docker-logs
-    echo "    delaycompress" >> /etc/logrotate.d/docker-logs
+    
+    # Add delaycompress option if enabled
+    if [ "${DELAYCOMPRESS}" = "true" ]; then
+        echo "    delaycompress" >> /etc/logrotate.d/docker-logs
+    fi
+    
     echo "    missingok" >> /etc/logrotate.d/docker-logs
     echo "    notifempty" >> /etc/logrotate.d/docker-logs
     echo "    copytruncate" >> /etc/logrotate.d/docker-logs
@@ -112,6 +117,7 @@ main() {
     MAX_SIZE=$(strip_quotes "${MAX_SIZE}")
     MAX_BACKUPS=$(strip_quotes "${MAX_BACKUPS}")
     TZ=$(strip_quotes "${TZ}")
+    DELAYCOMPRESS=$(strip_quotes "${DELAYCOMPRESS}")
     
     echo "Environment variables (after processing):"
     echo "LOGS_PATH: ${LOGS_PATH}"
@@ -119,6 +125,7 @@ main() {
     echo "MAX_SIZE: ${MAX_SIZE}"
     echo "MAX_BACKUPS: ${MAX_BACKUPS}"
     echo "TZ: ${TZ}"
+    echo "DELAYCOMPRESS: ${DELAYCOMPRESS}"
     
     # Generate logrotate configuration
     generate_logrotate_config

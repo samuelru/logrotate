@@ -30,6 +30,7 @@ All environment variables are optional and have default values:
 | `TRIGGER_INTERVAL` | How often to rotate logs | `daily` | `hourly`, `daily`, `weekly`, `monthly`, `yearly` |
 | `MAX_SIZE` | Rotate if log file size reaches this threshold | `NONE` | `NONE` or size (e.g., `1K`, `10M`, `1G`) |
 | `MAX_BACKUPS` | Number of backup copies to keep | `365` | Any positive integer |
+| `DELAYCOMPRESS` | Delay compression of rotated logs until next rotation | `true` | `true`, `false` |
 | `TZ` | Timezone | `UTC` | Any valid timezone (e.g., `Europe/Berlin`) |
 
 ### Docker Compose Example
@@ -66,6 +67,7 @@ services:
       TRIGGER_INTERVAL: daily
       MAX_SIZE: NONE
       MAX_BACKUPS: 365
+      DELAYCOMPRESS: "true"
     deploy:
       restart_policy:
         condition: on-failure
@@ -120,6 +122,19 @@ logrotate:
     - logs:/logs
   environment:
     LOGS_PATH: "/logs/app-*.log"
+```
+
+### With Delayed Compression
+
+```yaml
+logrotate:
+  image: samuelrunggaldier/logrotate:latest
+  volumes:
+    - logs:/logs
+  environment:
+    TRIGGER_INTERVAL: daily
+    MAX_BACKUPS: 30
+    DELAYCOMPRESS: "true"
 ```
 
 ## Building the Image
