@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3
 
 LABEL maintainer="SamuelRu"
 LABEL description="Docker image for rotating log files from other containers"

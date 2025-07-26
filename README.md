@@ -138,7 +138,8 @@ This project uses GitHub Actions for continuous integration and delivery:
 
 1. **Automated Builds**: Every push to the main branch and pull request triggers an automated build.
 2. **Versioned Releases**: Creating a tag with the format `v*` (e.g., `v1.0.0`) triggers a versioned release.
-3. **Docker Hub Publishing**: Successfully built images are automatically published to [Docker Hub](https://hub.docker.com/r/samuelrunggaldier/logrotate).
+3. **Monthly Updates**: The image is automatically rebuilt and published on the first day of each month to ensure it stays up-to-date.
+4. **Docker Hub Publishing**: Successfully built images are automatically published to [Docker Hub](https://hub.docker.com/r/samuelrunggaldier/logrotate).
 
 ### Versioning Strategy
 
@@ -146,11 +147,11 @@ The Docker images follow semantic versioning:
 
 | Tag Format | Example | Description |
 |------------|---------|-------------|
-| `latest` | `samuelrunggaldier/logrotate:latest` | Latest stable build from the main branch |
+| `latest` | `samuelrunggaldier/logrotate:latest` | Latest stable build from the main branch (updated monthly) |
 | `{version}` | `samuelrunggaldier/logrotate:1.2.3` | Specific version (from git tag v1.2.3) |
 | `{major}.{minor}` | `samuelrunggaldier/logrotate:1.2` | Latest patch version of a specific minor version |
 | `{major}` | `samuelrunggaldier/logrotate:1` | Latest minor.patch version of a specific major version |
-| `main` | `samuelrunggaldier/logrotate:main` | Latest build from the main branch (same as latest) |
+| `main` | `samuelrunggaldier/logrotate:main` | Latest build from the main branch (same as latest, updated monthly) |
 | `sha-{commit}` | `samuelrunggaldier/logrotate:sha-a1b2c3d` | Build from a specific commit |
 
 To use a specific version in your docker-compose.yml, choose one of these options:

@@ -9,6 +9,9 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    # Run on the first day of every month at 00:00 UTC
+    - cron: '0 0 1 * *'
 
 env:
   DOCKER_HUB_REPO: samuelrunggaldier/logrotate
