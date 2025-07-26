@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/samuelru/logrotate/main/.github/assets/logrotate-logo.png" alt="Docker Logrotate Logo" width="200" height="200">
+  <a href="https://gravatar.com/samyrgg">
+    <img src="https://gravatar.com/samyrgg" alt="Maintainer Gravatar" width="24" height="24" style="border-radius: 50%;">
+  </a>
 </p>
 
 # Docker Logrotate
