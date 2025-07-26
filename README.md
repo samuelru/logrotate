@@ -190,6 +190,16 @@ logrotate:
 2. Verify that the logrotate configuration is valid
 3. Check system resources (memory, disk space)
 
+### "Destination Already Exists" Error
+
+If you see errors like `error: destination /logs/access.log-YYYYMMDD already exists, skipping rotation`:
+
+1. This is fixed in the latest version by using a more precise timestamp format that includes hours, minutes, and seconds
+2. If using an older version, you can work around this by:
+   - Manually removing the existing rotated log files
+   - Restarting the logrotate container
+   - Scheduling the container to run at different times than when logs are created
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

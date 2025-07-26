@@ -44,7 +44,7 @@ ${LOGS_PATH} {
     ${TRIGGER_INTERVAL}
     rotate ${MAX_BACKUPS}
     dateext
-    dateformat -%Y%m%d
+    dateformat -%Y%m%d-%H%M%S
     compress
     delaycompress
     missingok
