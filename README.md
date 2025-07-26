@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/assets/logrotate-logo.png" alt="Docker Logrotate Logo" width="200" height="200">
+</p>
+
 # Docker Logrotate
 
 [![Build and Publish Docker Image](https://github.com/samuelru/logrotate/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/samuelru/logrotate/actions/workflows/docker-publish.yml)

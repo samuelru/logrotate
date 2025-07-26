@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/samuelru/logrotate/main/.github/assets/logrotate-logo.png" alt="Docker Logrotate Logo" width="200" height="200">
+</p>
+
 # Docker Logrotate
 
 A lightweight Docker image that performs log rotation for other containers running in the same Docker environment.
