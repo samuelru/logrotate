@@ -39,18 +39,16 @@ generate_logrotate_config() {
     echo "Generating logrotate configuration..."
     
     # Create logrotate configuration file
-    cat > /etc/logrotate.d/docker-logs << EOF
-${LOGS_PATH} {
-    ${TRIGGER_INTERVAL}
-    rotate ${MAX_BACKUPS}
-    dateext
-    dateformat -%Y%m%d-%H%M%S
-    compress
-    delaycompress
-    missingok
-    notifempty
-    copytruncate
-EOF
+    echo "${LOGS_PATH} {" > /etc/logrotate.d/docker-logs
+    echo "    ${TRIGGER_INTERVAL}" >> /etc/logrotate.d/docker-logs
+    echo "    rotate ${MAX_BACKUPS}" >> /etc/logrotate.d/docker-logs
+    echo "    dateext" >> /etc/logrotate.d/docker-logs
+    echo "    dateformat -%Y%m%d-%H%M%S" >> /etc/logrotate.d/docker-logs
+    echo "    compress" >> /etc/logrotate.d/docker-logs
+    echo "    delaycompress" >> /etc/logrotate.d/docker-logs
+    echo "    missingok" >> /etc/logrotate.d/docker-logs
+    echo "    notifempty" >> /etc/logrotate.d/docker-logs
+    echo "    copytruncate" >> /etc/logrotate.d/docker-logs
 
     # Add size condition if specified
     if [ "${MAX_SIZE}" != "NONE" ]; then
@@ -62,7 +60,9 @@ EOF
     
     echo "Logrotate configuration generated."
     echo "Configuration:"
+    echo "--- BEGIN CONFIGURATION ---"
     cat /etc/logrotate.d/docker-logs
+    echo "--- END CONFIGURATION ---"
 }
 
 # Function to setup cron job
