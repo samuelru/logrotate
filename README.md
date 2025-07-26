@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/logrotate-logo.png" alt="Docker Logrotate Logo" width="200" height="200">
+  <img src="https://raw.githubusercontent.com/samuelru/logrotate/main/.github/assets/logrotate-logo.png" alt="Docker Logrotate Logo" width="200" height="200">
 </p>
 
 # Docker Logrotate
