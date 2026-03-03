@@ -62,6 +62,20 @@ volumes:
     driver: local
 ```
 
+### Run on Docker Desktop
+
+Run locally with Docker Desktop using Docker Compose:
+
+```bash
+docker compose up -d
+docker compose logs -f logrotate
+```
+
+Notes:
+
+- The sample uses a named volume `logs` that works out-of-the-box on Docker Desktop.
+- To use a bind mount instead, replace `logs:/logs` with `./logs:/logs` and ensure the folder is in a file-shared location (Docker Desktop Settings → Resources → File sharing).
+
 ## ⚙️ Environment Variables
 
 | Variable | Description | Default | Options |
@@ -72,6 +86,8 @@ volumes:
 | `MAX_BACKUPS` | Number of backup copies to keep | `365` | Any positive integer |
 | `DELAYCOMPRESS` | Delay compression of rotated logs until next rotation | `true` | `true`, `false` |
 | `TZ` | Timezone | `UTC` | Any valid timezone (e.g., `Europe/Berlin`) |
+| `SU_USER` | User for logrotate `su` directive (helps with bind mounts on Docker Desktop) | `root` | Any existing user inside container |
+| `SU_GROUP` | Group for logrotate `su` directive | `root` | Any existing group inside container |
 
 ## 🔗 Links
 
