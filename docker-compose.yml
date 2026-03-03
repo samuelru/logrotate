@@ -40,6 +40,10 @@ services:
       TRIGGER_INTERVAL: daily       # rotate daily, must be one of: daily, weekly, monthly, yearly
       MAX_SIZE: NONE                # rotate if log file size reaches for example 1K, 1M, 1G
       MAX_BACKUPS: 365              # keep 365 backup copies per rotated log file
+      # When using a bind mount like ./logs:/logs on Docker Desktop, set the user/group
+      # that logrotate should use to avoid "insecure permissions" warnings.
+      # SU_USER: root
+      # SU_GROUP: root
     deploy:
       restart_policy:
         condition: on-failure

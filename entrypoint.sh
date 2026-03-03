@@ -40,6 +40,13 @@ generate_logrotate_config() {
     
     # Create logrotate configuration file
     echo "${LOGS_PATH} {" > /etc/logrotate.d/docker-logs
+    # When logs reside on a bind-mounted host directory (e.g., Docker Desktop),
+    # parent directory permissions can be seen as world-writable by Alpine.
+    # Setting 'su user group' tells logrotate which permissions to use during rotation
+    # and avoids the "insecure permissions" warning.
+    if [ -n "${SU_USER}" ] && [ -n "${SU_GROUP}" ]; then
+        echo "    su ${SU_USER} ${SU_GROUP}" >> /etc/logrotate.d/docker-logs
+    fi
     echo "    ${TRIGGER_INTERVAL}" >> /etc/logrotate.d/docker-logs
     echo "    rotate ${MAX_BACKUPS}" >> /etc/logrotate.d/docker-logs
     echo "    dateext" >> /etc/logrotate.d/docker-logs
@@ -118,6 +125,8 @@ main() {
     MAX_BACKUPS=$(strip_quotes "${MAX_BACKUPS}")
     TZ=$(strip_quotes "${TZ}")
     DELAYCOMPRESS=$(strip_quotes "${DELAYCOMPRESS}")
+    SU_USER=$(strip_quotes "${SU_USER}")
+    SU_GROUP=$(strip_quotes "${SU_GROUP}")
     
     echo "Environment variables (after processing):"
     echo "LOGS_PATH: ${LOGS_PATH}"
@@ -126,6 +135,8 @@ main() {
     echo "MAX_BACKUPS: ${MAX_BACKUPS}"
     echo "TZ: ${TZ}"
     echo "DELAYCOMPRESS: ${DELAYCOMPRESS}"
+    echo "SU_USER: ${SU_USER}"
+    echo "SU_GROUP: ${SU_GROUP}"
     
     # Generate logrotate configuration
     generate_logrotate_config

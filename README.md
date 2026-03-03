@@ -36,6 +36,8 @@ All environment variables are optional and have default values:
 | `MAX_BACKUPS` | Number of backup copies to keep | `365` | Any positive integer |
 | `DELAYCOMPRESS` | Delay compression of rotated logs until next rotation | `true` | `true`, `false` |
 | `TZ` | Timezone | `UTC` | Any valid timezone (e.g., `Europe/Berlin`) |
+| `SU_USER` | User for logrotate `su` directive (helps with bind mounts on Docker Desktop) | `root` | Any existing user inside container |
+| `SU_GROUP` | Group for logrotate `su` directive | `root` | Any existing group inside container |
 
 ### Docker Compose Example
 
@@ -80,6 +82,52 @@ services:
 volumes:
   logs:
     driver: local
+```
+
+### Run on Docker Desktop (Windows/macOS)
+
+You can run this stack locally with Docker Desktop using Docker Compose. The included `docker-compose.yml` already contains an example app (Traefik) that writes logs for `logrotate` to rotate.
+
+Steps:
+
+1. Clone this repository or copy the `docker-compose.yml` into an empty folder.
+2. From that folder, start the stack:
+   ```bash
+   docker compose up -d
+   ```
+3. Watch the `logrotate` container logs:
+   ```bash
+   docker compose logs -f logrotate
+   ```
+4. List rotated files (example uses the named volume `logs` mounted at `/logs`):
+   ```bash
+   docker compose exec logrotate sh -lc "ls -l /logs"
+   ```
+5. Stop and clean up when done:
+   ```bash
+   docker compose down -v
+   ```
+
+Notes for Windows/macOS:
+
+- The provided compose file uses a named volume (`logs`), which works out-of-the-box on Docker Desktop. If you prefer a bind mount, use `./logs:/logs` and ensure the project folder is within a directory shared with Docker Desktop (Settings → Resources → File sharing).
+- Timezone can be set via `TZ` (e.g., `Europe/Berlin`).
+- You can change which files are rotated by adjusting `LOGS_PATH` (default `/logs/*.log`).
+- If you use a bind mount (`./logs:/logs`) and see an error like: `error: skipping "/logs/*.log" because parent directory has insecure permissions (...) Set "su" directive in config file`, set `SU_USER` and `SU_GROUP` (e.g., `root`/`root`). This adds `su user group` to the logrotate config to handle Docker Desktop’s permissions semantics.
+
+Run without Compose (optional):
+
+```bash
+docker run -d --name logrotate \
+  -e TZ=UTC \
+  -e LOGS_PATH="/logs/*.log" \
+  -e TRIGGER_INTERVAL=daily \
+  -e MAX_SIZE=NONE \
+  -e MAX_BACKUPS=365 \
+  -e SU_USER=root \
+  -e SU_GROUP=root \
+  -v logs:/logs \
+  samuelrunggaldier/logrotate:latest
 ```
 
 ### Deployment
